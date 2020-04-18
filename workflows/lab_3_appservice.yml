@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+      - master
+
+
+name: Lab_3_AppService
+
+env:
+  AZURE_WEBAPP_NAME: drewlab-revealdemo
+  AZURE_WEBAPP_PACKAGE_PATH: ./lab_3/reveal.js-3.9.2
+
+jobs:
+
+  deploy-to-azure:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Setup Node 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+
+    - name: npm install, build, and test
+      run: |
+        cd ./lab_3/reveal.js-3.9.2
+        npm install
+        npm run build --if-present
+        npm run test --if-present
+
+    - name: Deploy to Azure WebApp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}

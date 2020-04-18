@@ -1,0 +1,167 @@
+# Lab 1 - Connectivity
+
+- Fork source repo
+- Configure Azure authentication
+- Create workflow
+
+## Fork the Source Repo
+
+---
+
+TODO: Look into changing to template - https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template
+
+
+Access the source repo url: [https://github.com/acampb/devopsbootcamp](https://github.com/acampb/devopsbootcamp)
+
+Click the **Fork** button ![fork_01](images/fork_01.png)
+
+Once the fork is completed you will have a seperate copy of the source repo in your own account. The bootcamp labs and tasks will be performed in your individual repo where changes can be safely made, isolated from any other repo.
+
+You should see that your new **devopsbootcamp** repo is in your account, and forked from *acampb/devopsbootcamp*
+
+![fork_02](images/fork_02.png)
+
+## Create Azure Service Principal
+
+---
+
+We need to create a service principal in Azure that GitHub Actions will use to authenticate and deploy resources.
+
+Access Cloud Shell from the Azure Portal by clicking the icon in the upper right toolbar. ![cloudshell_01](images/cloudshell_01.png)
+
+If this is the first time you have used Azure Cloud Shell you will be prompted to create a storage account first. ![cloudshell_02](images/cloudshell_02.png)
+
+Use Azure CLI to create a new service principal for use with GitHub Actions
+
+```python
+az ad sp create-for-rbac --name GitHubActions
+```
+
+Azure will generate a strong password for the service principal and return it in Cloud Shell. We need to capture this information and save it in a specifically formatted JSON object.
+
+Example Azure Cloud Shell service principal response
+
+![sp_01](images/sp_01.png)
+
+## Configure GitHub Credential Variable
+
+---
+
+The JSON properties names returned via Cloud Shell do not exactly match what is required for GitHub Actions. We will need to manually format a JSON object with the required property names.
+
+| GitHub Property Name | Az CLI Property Name |
+| --- | --- |
+| `clientId` | `appId` |
+| `clientSecret` | `password` |
+| `subscriptionId` | *not provided* |
+| `tenantId` | `tenant` |
+
+> Note: Az CLI does not return the Azure Subscription Id in the response when creating a new service principal object. You can obtain this value by using this command: `az account show --query "id"`
+
+Copy the JSON code block below, replacing *GUID* with each value from your Azure environment.
+
+```json
+{
+    "clientId": "GUID",
+    "clientSecret": "GUID",
+    "subscriptionId": "GUID",
+    "tenantId": "GUID"
+}
+```
+
+In your GitHub Repo navigate to **Settings** > **Secrets**, and click **Add a new Secret**. Name the secret `AZURE_CREDENTIALS`, paste your JSON object in the Value, and click Add Secret. ![secret_01](images/secret_01.png)
+
+> Note: Once you add the secret you cannot retrieve the values in clear text from GitHub.
+
+## Setting up GitHub Actions
+
+---
+
+TODO: Add some stuff about GH Actions
+
+TODO: Figure out new file with sample text, or rename workflows to workflow-templates, maybe use new actions process?
+
+Browse to the `workflows\lab_1_connectivity.yml` file and copy all of the text.
+
+![lab_1_workflow_01](images/lab_1_workflow_01.png)
+
+Navigate to `Actions` and click `New workflow`. If prompted to start with a sample workflow click the `Set up a workflow yourself` button in the top right.
+
+![lab_1_workflow_02](images/lab_1_workflow_02.png)
+
+Replace all of the sample workflow code in the editor by pasting all the code you copied from `lab_1_connectivity.yml`.
+
+GitHub Actions files must be saved in a directory in your repo named `.github/workflows/`. The directory structure `.github/workflows/` should already exist in the path, name your workflow file `lab_1_connectivity.yml` and click `Start Commit`.
+
+![lab_1_workflow_03](images/lab_1_workflow_03.png)
+
+Now add a short commit message and click `Commit new file`
+
+![lab_1_workflow_04](images/lab_1_workflow_04.png)
+
+Navigate to `Code`, open the `.github/workflows` directory, and open the `lab_1_connectivity.yml` file.
+
+Let's explore this file
+
+The `on:` section describes what event will cause the workflow to execute. This code configures the workflow to only execute when files are modified in the `lab_1/` directory, and when the changes are pushed to the `master` branch.
+
+```yaml
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'lab_1/*'
+
+```
+
+The `name:` section gives the workflow a name, visible in the `Actions` area of the repo. This code names the workflow `Lab_1_VerifyConnectivity`.
+
+```yaml
+name: Lab_1_VerifyConnectivity
+```
+
+The `jobs:` section instructs the workflow on what to actually do. Each job is made up of one or more steps that are executed sequentially. This code starts a single job named `connect-to-azure` running on a Ubuntu Linux instance. The job performs 3 steps:
+
+1. Login to Azure using the credentials stored in the secret `AZURE_CREDENTIALS`
+2. Checkout the repo code. This performs a `git clone` to copy all of the repo code into the Ubuntu Linux instance.
+3. Execute the Azure CLI script `lab_1/list_resourcegroups.sh`
+
+```yaml
+jobs:
+
+  connect-to-azure:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Azure CLI Script
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          chmod +x ./lab_1/list_resourcegroups.sh
+          ./lab_1/list_resourcegroups.sh
+```
+
+Navigate to the `lab_1/list_resourcegroups.sh` and we can examine what the script being executed by the action will actually do. We can see this script will simply show the account which is authenticated to Azure (this will be the service principal), and list the Resource Groups in the Azure subscription in a table
+
+```python
+# show the logged in account
+az account show
+
+# list all resource groups
+az group list -o table
+```
+
+## Run GitHub Actions
+
+The workflow we just created is triggered by changes made to the files in the `lab_1/` directory. Let's make a change here to kick off the workflow. The `readme.txt` can be modified by simply adding a new line or some text. The act of committing this change to the `master` branch will instruct GitHub Actions to kick off our workflow.
+
+Navigate back to `Actions`, should see the new workflow created. (may take a few minutes)

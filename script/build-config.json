@@ -1,0 +1,6 @@
+{
+	"fileUris": [
+		"https://raw.githubusercontent.com/$GITHUB_REPOSITORY/master/script/build.ps1"
+	],
+	"commandToExecute": "powershell.exe -File build.ps1"
+}

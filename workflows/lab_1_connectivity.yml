@@ -1,0 +1,29 @@
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'lab_1/*'
+
+name: Lab_1_VerifyConnectivity
+
+jobs:
+
+  connect-to-azure:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Azure CLI Script
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          chmod +x ./lab_1/list_resourcegroups.sh
+          ./lab_1/list_resourcegroups.sh

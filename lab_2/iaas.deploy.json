@@ -1,0 +1,328 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"webServerNames": {
+			"type": "array",
+			"defaultValue": [
+				"vm-wdgt-dev-1",
+				"vm-wdgt-dev-2"
+			]
+		},
+		"webVmSize": {
+			"type": "string",
+			"defaultValue": "Standard_B4ms"
+		},
+		"vnetName": {
+			"type": "string",
+			"defaultValue": "vnet-wdgt-dev"
+		},
+		"webAvailSetName": {
+			"type": "string",
+			"defaultValue": "as-wdgt-dev"
+		},
+		"webLbDnsName": {
+			"type": "string",
+			"defaultValue": "widget-dev"
+		},
+		"webLbName": {
+			"type": "string",
+			"defaultValue": "lb-wdgt-dev"
+		},
+		"webLbIpName": {
+			"type": "string",
+			"defaultValue": "ip-wdgt-dev"
+		},
+		"webNsgName": {
+			"type": "string",
+			"defaultValue": "nsg-wdgt-dev"
+		},
+		"adminUsername": {
+			"type": "string",
+			"defaultValue": "devopsadmin"
+		},
+		"adminPassword": {
+			"type": "string",
+			"defaultValue": "Password1234",
+			"metadata": {
+				"description": "Password for the Virtual Machine."
+			}
+		},
+		"artifactLocation": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/acampbell1327/bootcamp/master"
+		},
+		"scriptName": {
+			"type": "string",
+			"defaultValue": "installwebserver.ps1"
+		}
+	},
+	"variables": {
+		"webLbId": "[resourceId('Microsoft.Network/loadBalancers', parameters('webLbName'))]",
+		"webLbFrontendIpConfigId": "[concat(variables('webLbId'), '/frontendIpConfigurations/lbFrontend')]",
+		"webLbBackendAddressPoolId": "[concat(variables('webLbId'), '/backendAddressPools/backendAddressPool')]",
+		"webLbProbeId": "[concat(variables('webLbId'), '/probes/httpProbe')]",
+		"imagePublisher": "MicrosoftWindowsServer",
+		"imageOffer": "WindowsServer",
+		"windowsOsVersion": "2019-Datacenter",
+		"vnetAddressSpace": "10.1.0.0/16",
+		"backendSubnetPrefix": "10.1.1.0/24",
+		"webSubnetPrefix": "10.1.99.0/24"
+	},
+	"resources": [
+		{
+			"apiVersion": "2016-08-01",
+			"type": "Microsoft.Network/virtualNetworks",
+			"name": "[parameters('vnetName')]",
+			"location": "[resourceGroup().location]",
+			"dependsOn": [
+				"[resourceId('Microsoft.Network/networkSecurityGroups', parameters('webNsgName'))]"
+			],
+			"properties": {
+				"addressSpace": {
+					"addressPrefixes": [
+						"[variables('vnetAddressSpace')]"
+					]
+				},
+				"subnets": [
+					{
+						"name": "BackEndSubnet",
+						"properties": {
+							"addressPrefix": "[variables('backendSubnetPrefix')]"
+						}
+					},
+					{
+						"name": "WebSubnet",
+						"properties": {
+							"addressPrefix": "[variables('webSubnetPrefix')]",
+							"networkSecurityGroup": {
+								"id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('webNsgName'))]"
+							}
+						}
+					}
+				]
+			}
+		},
+		{
+			"type": "Microsoft.Network/networkInterfaces",
+			"apiVersion": "2017-11-01",
+			"name": "[concat('nic-', parameters('webServerNames')[copyIndex()])]",
+			"copy": {
+				"name": "webServerNicCopy",
+				"count": "[length(parameters('webServerNames'))]"
+			},
+			"location": "[resourceGroup().location]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]"
+			],
+			"properties": {
+				"ipConfigurations": [
+					{
+						"name": "ipconfig01",
+						"properties": {
+							"subnet": {
+								"id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'WebSubnet')]"
+							},
+							"privateIPAllocationMethod": "Dynamic",
+							"loadBalancerBackendAddressPools": [
+								{
+									"id": "[concat(variables('webLbID'), '/backendAddressPools/backendAddressPool')]"
+								}
+							]
+						}
+
+					}
+				]
+			}
+
+		},
+		{
+			"apiVersion": "2017-06-01",
+			"type": "Microsoft.Network/networkSecurityGroups",
+			"name": "[parameters('webNsgName')]",
+			"location": "[resourceGroup().location]",
+			"properties": {
+				"securityRules": [
+					{
+						"name": "AllowHTTP",
+						"properties": {
+							"description": "Allow HTTP",
+							"protocol": "Tcp",
+							"sourcePortRange": "*",
+							"destinationPortRange": "80",
+							"sourceAddressPrefix": "*",
+							"destinationAddressPrefix": "*",
+							"access": "Allow",
+							"priority": 1001,
+							"direction": "Inbound"
+						}
+					},
+					{
+						"name": "AllowRDP",
+						"properties": {
+							"description": "Allow RDP",
+							"protocol": "Tcp",
+							"sourcePortRange": "*",
+							"destinationPortRange": "3389",
+							"sourceAddressPrefix": "*",
+							"destinationAddressPrefix": "*",
+							"access": "Allow",
+							"priority": 1002,
+							"direction": "Inbound"
+						}
+					}
+				]
+			}
+		},
+		{
+			"apiVersion": "2017-03-30",
+			"type": "Microsoft.Compute/virtualMachines",
+			"copy": {
+				"name": "webServerVMCopy",
+				"count": "[length(parameters('webServerNames'))]"
+			},
+			"name": "[parameters('webServerNames')[copyIndex()]]",
+			"location": "[resourceGroup().location]",
+			"dependsOn": [
+				"[resourceId('Microsoft.Network/networkInterfaces', concat('nic-', parameters('webServerNames')[copyIndex()]) )]",
+				"[resourceId('Microsoft.Compute/availabilitySets', parameters('webAvailSetName'))]"
+			],
+			"properties": {
+				"hardwareProfile": {
+					"vmSize": "[parameters('webVmSize')]"
+				},
+				"osProfile": {
+					"computerName": "[parameters('webServerNames')[copyIndex()]]",
+					"adminUsername": "[parameters('adminUsername')]",
+					"adminPassword": "[parameters('adminPassword')]"
+				},
+				"storageProfile": {
+					"imageReference": {
+						"publisher": "[variables('imagePublisher')]",
+						"offer": "[variables('imageOffer')]",
+						"sku": "[variables('windowsOsVersion')]",
+						"version": "latest"
+					},
+					"osDisk": {
+						"createOption": "FromImage"
+					}
+				},
+				"networkProfile": {
+					"networkInterfaces": [
+						{
+							"id": "[resourceId('Microsoft.Network/networkInterfaces', concat('nic-', parameters('webServerNames')[copyIndex()]))]"
+						}
+					]
+				},
+				"diagnosticsProfile": {
+					"bootDiagnostics": {
+						"enabled": false
+					}
+				},
+				"availabilitySet": {
+					"id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('webAvailSetName'))]"
+				}
+			},
+			"resources": []
+		},
+		{
+			"type": "Microsoft.Compute/availabilitySets",
+			"apiVersion": "2017-12-01",
+			"name": "[parameters('webAvailSetName')]",
+			"location": "[resourceGroup().location]",
+			"properties": {
+				"platformFaultDomainCount": 2,
+				"platformUpdateDomainCount": 5
+			},
+			"sku": {
+				"name": "Aligned"
+			}
+		},
+		{
+			"type": "Microsoft.Network/publicIPAddresses",
+			"apiVersion": "2017-11-01",
+			"name": "[parameters('webLbIpName')]",
+			"location": "[resourceGroup().location]",
+			"properties": {
+				"publicIPAllocationMethod": "Dynamic",
+				"dnsSettings": {
+					"domainNameLabel": "[parameters('webLbDnsName')]"
+				}
+			}
+
+		},
+		{
+			"type": "Microsoft.Network/loadBalancers",
+			"name": "[parameters('webLbName')]",
+			"apiVersion": "2017-11-01",
+			"location": "[resourceGroup().location]",
+			"dependsOn": [
+				"[resourceId('Microsoft.Network/publicIPAddresses', parameters('webLbIpName'))]"
+			],
+			"properties": {
+				"frontendIPConfigurations": [
+					{
+						"name": "lbFrontEnd",
+						"properties": {
+							"publicIPAddress": {
+								"id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('webLbIpName'))]"
+							}
+						}
+					}
+				],
+				"backendAddressPools": [
+					{
+						"name": "backendAddressPool"
+					}
+				],
+				"loadBalancingRules": [
+					{
+						"name": "lbRule",
+						"properties": {
+							"frontendIPConfiguration": {
+								"id": "[variables('webLbFrontendIpConfigId')]"
+							},
+							"backendAddressPool": {
+								"id": "[variables('webLbBackendAddressPoolId')]"
+							},
+							"probe": {
+								"id": "[variables('webLbProbeId')]"
+							},
+							"protocol": "Tcp",
+							"frontendPort": 80,
+							"backendPort": 80,
+							"enableFloatingIP": false,
+							"idleTimeoutInMinutes": 4
+						}
+					}
+				],
+				"probes": [
+					{
+						"name": "httpProbe",
+						"properties": {
+							"protocol": "Tcp",
+							"port": 80,
+							"intervalInSeconds": 5,
+							"numberOfProbes": 2
+						}
+					}
+				]
+			}
+
+
+
+		}
+
+
+	],
+	"outputs": {
+		"adminPassword": {
+			"type": "string",
+			"value": "[parameters('adminPassword')]"
+		},
+		"fqdn": {
+			"type": "string",
+			"value": "[reference(parameters('webLbIpName'), '2017-11-01').dnsSettings.fqdn]"
+		}
+	}
+}

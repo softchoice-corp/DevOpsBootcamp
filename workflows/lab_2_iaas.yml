@@ -1,0 +1,48 @@
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'lab_2/*'
+
+name: Lab_2_IaaS
+
+env:
+  RG_NAME: rg-widget-app
+  LOCATION: eastus2
+  SCRIPT_URI: https://raw.githubusercontent.com/acampb/devopsbootcamp/master/script/build.ps1
+
+jobs:
+
+  deploy-to-azure:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Checkout Code
+      uses: actions/checkout@v2
+
+    - name: Create Resource Group
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az group create --name $RG_NAME --location $LOCATION
+
+    - name: Deploy ARM Template
+      uses: azure/CLI@v1
+      with:
+        inlineScript: |
+          az deployment group create --resource-group $RG_NAME --template-file lab_2/iaas.deploy.json
+
+    #- run: |
+    #    az group create --name $RG_NAME --location $LOCATION
+
+    #- run: |
+    #    az group deployment create -g $RG_NAME --template-file arm_template/webservers.deploy.json
+
+
+
