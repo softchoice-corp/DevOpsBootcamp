@@ -1,49 +1,55 @@
 # Lab 1 - Connectivity
 
-- Fork source repo
-- Configure Azure authentication
-- Create workflow
-
-## Fork the Source Repo
+- [Create Repo from Template](#Create-Repo-From-Template)
+- [Create Azure Service Principal](#Create-Azure-Service-Principal)
+- [Create GitHub Credential Variable](#Create-GitHub-Credential-Variable)
+- [Configure GitHub Actions](#Configure-GitHub-Actions)
 
 ---
 
-TODO: Look into changing to template - https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template
+## Create Repo From Template
 
+1. Access the source repo url: [https://github.com/softchoice-corp/DevOpsBootcamp](https://github.com/softchoice-corp/DevOpsBootcamp)
 
-Access the source repo url: [https://github.com/acampb/devopsbootcamp](https://github.com/acampb/devopsbootcamp)
+2. Click the green **Use this template** button. This will copy all of the content from the source repo into a new repo under your GitHub account.
 
-Click the **Fork** button ![fork_01](images/fork_01.png)
+> ![template_01](images/lab_1_template_01.png)
 
-Once the fork is completed you will have a seperate copy of the source repo in your own account. The bootcamp labs and tasks will be performed in your individual repo where changes can be safely made, isolated from any other repo.
+3. Provide a new repository name and descrition. The repo can be left as `Public`, and leave the `Include all branches` option unselected. Click the green **Create repository from template** button.
 
-You should see that your new **devopsbootcamp** repo is in your account, and forked from *acampb/devopsbootcamp*
+> ![lab_1_template_02](images/lab_1_template_02.png)
 
-![fork_02](images/fork_02.png)
+4. Once the repository creation is completed you should see that your new repo is in your account, and was generated from *softchoice-corp/DevOpsBootcamp*.
+
+> ![lab_1_template_03](images/lab_1_template_03.png)
+
+---
 
 ## Create Azure Service Principal
 
----
-
 We need to create a service principal in Azure that GitHub Actions will use to authenticate and deploy resources.
 
-Access Cloud Shell from the Azure Portal by clicking the icon in the upper right toolbar. ![cloudshell_01](images/cloudshell_01.png)
+1. Open the Azure Portal using [https://portal.azure.com](https://portal.azure.com).
 
-If this is the first time you have used Azure Cloud Shell you will be prompted to create a storage account first. ![cloudshell_02](images/cloudshell_02.png)
+> ![lab_1_azureportal](images/lab_1_azureportal.png)
 
-Use Azure CLI to create a new service principal for use with GitHub Actions
+2.Access Cloud Shell from the Azure Portal by clicking the icon in the upper right toolbar.
+
+> ![cloudshell_01](images/cloudshell_01.png)
+
+> Note: If this is the first time you have used Azure Cloud Shell you will be prompted to create a storage account to enable Cloud Shell.
+
+3. Use Azure CLI to create a new service principal for use with GitHub Actions. Az Cli is installed in both PowerShell and Bash within Azure Cloud Shell.
 
 ```python
 az ad sp create-for-rbac --name GitHubActions
 ```
 
-Azure will generate a strong password for the service principal and return it in Cloud Shell. We need to capture this information and save it in a specifically formatted JSON object.
+Azure will generate a strong password for the service principal and return it in Cloud Shell. We need to capture this information for use in our GitHub secret storage. Example Azure Cloud Shell service principal response:
 
-Example Azure Cloud Shell service principal response
+> ![sp_01](images/sp_01.png)
 
-![sp_01](images/sp_01.png)
-
-## Configure GitHub Credential Variable
+## Create GitHub Credential Variable
 
 ---
 
@@ -58,7 +64,7 @@ The JSON properties names returned via Cloud Shell do not exactly match what is 
 
 > Note: Az CLI does not return the Azure Subscription Id in the response when creating a new service principal object. You can obtain this value by using this command: `az account show --query "id"`
 
-Copy the JSON code block below, replacing *GUID* with each value from your Azure environment.
+1. Copy the JSON code block below, replacing *GUID* with each value from your Azure environment.
 
 ```json
 {
@@ -69,11 +75,11 @@ Copy the JSON code block below, replacing *GUID* with each value from your Azure
 }
 ```
 
-In your GitHub Repo navigate to **Settings** > **Secrets**, and click **Add a new Secret**. Name the secret `AZURE_CREDENTIALS`, paste your JSON object in the Value, and click Add Secret. ![secret_01](images/secret_01.png)
+2. In your GitHub Repo navigate to **Settings** > **Secrets**, and click **Add a new Secret**. Name the secret `AZURE_CREDENTIALS`, paste your JSON object in the Value, and click Add Secret. ![secret_01](images/secret_01.png)
 
 > Note: Once you add the secret you cannot retrieve the values in clear text from GitHub.
 
-## Setting up GitHub Actions
+## Configure GitHub Actions
 
 ---
 
@@ -81,9 +87,9 @@ TODO: Add some stuff about GH Actions
 
 TODO: Figure out new file with sample text, or rename workflows to workflow-templates, maybe use new actions process?
 
-Browse to the `workflows\lab_1_connectivity.yml` file and copy all of the text.
+1. Browse to the `workflows\lab_1_connectivity.yml` file and copy all of the text.
 
-![lab_1_workflow_01](images/lab_1_workflow_01.png)
+> ![lab_1_workflow_01](images/lab_1_workflow_01.png)
 
 Navigate to `Actions` and click `New workflow`. If prompted to start with a sample workflow click the `Set up a workflow yourself` button in the top right.
 
