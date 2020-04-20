@@ -85,29 +85,26 @@ The JSON properties names returned via Cloud Shell do not exactly match what is 
 
 TODO: Add some stuff about GH Actions
 
-TODO: Figure out new file with sample text, or rename workflows to workflow-templates, maybe use new actions process?
 
-1. Browse to the `workflows\lab_1_connectivity.yml` file and copy all of the text.
+1. Browse to the `workflows-templates\lab_1_connectivity.yml` file and copy all of the text.
 
 > ![lab_1_workflow_01](images/lab_1_workflow_01.png)
 
-Navigate to `Actions` and click `New workflow`. If prompted to start with a sample workflow click the `Set up a workflow yourself` button in the top right.
+2. Navigate to **Actions** and click **Set up a workflow yourself**. If prompted to start with a sample workflow click the `Set up a workflow yourself` button in the top right.
 
-![lab_1_workflow_02](images/lab_1_workflow_02.png)
+> ![lab_1_workflow_02](images/lab_1_workflow_02.png)
 
-Replace all of the sample workflow code in the editor by pasting all the code you copied from `lab_1_connectivity.yml`.
+3. Replace all of the sample workflow code in the editor by pasting all the code you copied from `workflows-templates/lab_1_connectivity.yml`.
 
-GitHub Actions files must be saved in a directory in your repo named `.github/workflows/`. The directory structure `.github/workflows/` should already exist in the path, name your workflow file `lab_1_connectivity.yml` and click `Start Commit`.
+4. GitHub Actions files must be saved in a directory in your repo named `.github/workflows/`. The directory structure `.github/workflows/` should already exist in the path, name your workflow file `lab_1_connectivity.yml` and click `Start Commit`.
 
-![lab_1_workflow_03](images/lab_1_workflow_03.png)
+> ![lab_1_workflow_03](images/lab_1_workflow_03.png)
 
-Now add a short commit message and click `Commit new file`
+5. Add a short commit message and click `Commit new file`
 
 ![lab_1_workflow_04](images/lab_1_workflow_04.png)
 
-Navigate to `Code`, open the `.github/workflows` directory, and open the `lab_1_connectivity.yml` file.
-
-Let's explore this file
+Navigate to **Code**, open the `.github/workflows` directory, and open the `lab_1_connectivity.yml` file. Let's explore this file.
 
 The `on:` section describes what event will cause the workflow to execute. This code configures the workflow to only execute when files are modified in the `lab_1/` directory, and when the changes are pushed to the `master` branch.
 
@@ -129,9 +126,9 @@ name: Lab_1_VerifyConnectivity
 
 The `jobs:` section instructs the workflow on what to actually do. Each job is made up of one or more steps that are executed sequentially. This code starts a single job named `connect-to-azure` running on a Ubuntu Linux instance. The job performs 3 steps:
 
-1. Login to Azure using the credentials stored in the secret `AZURE_CREDENTIALS`
-2. Checkout the repo code. This performs a `git clone` to copy all of the repo code into the Ubuntu Linux instance.
-3. Execute the Azure CLI script `lab_1/list_resourcegroups.sh`
+- **Azure Login**: Login to Azure using the credentials stored in the secret `AZURE_CREDENTIALS`
+- **Checkout Code**: This performs a `git clone` to copy all of the repo code into the Ubuntu Linux instance.
+- **Azure CLI Script**: Execute the Azure CLI script `lab_1/list_resourcegroups.sh`
 
 ```yaml
 jobs:
@@ -156,7 +153,7 @@ jobs:
           ./lab_1/list_resourcegroups.sh
 ```
 
-Navigate to the `lab_1/list_resourcegroups.sh` and we can examine what the script being executed by the action will actually do. We can see this script will simply show the account which is authenticated to Azure (this will be the service principal), and list the Resource Groups in the Azure subscription in a table
+Navigate to the `lab_1/list_resourcegroups.sh` and we can examine what the script being executed by the action will actually do. We can see this script will simply show the account which is authenticated to Azure (this will be the service principal), and list the Resource Groups in the Azure subscription in a table format.
 
 ```python
 # show the logged in account
@@ -170,4 +167,25 @@ az group list -o table
 
 The workflow we just created is triggered by changes made to the files in the `lab_1/` directory. Let's make a change here to kick off the workflow. The `readme.txt` can be modified by simply adding a new line or some text. The act of committing this change to the `master` branch will instruct GitHub Actions to kick off our workflow.
 
-Navigate back to `Actions`, should see the new workflow created. (may take a few minutes)
+1. Navigate to **Code**, and browse to the `lab_1/readme.txt` file. Click the pencil icon to edit the file, and add a new line. Provide a commit message and commit your change.
+
+2. Navigate to **Actions** and you should see your `Lab_1_VerifyConnectivity` workflow executing.
+
+> ![lab_1_workflow_06](images/lab_1_workflow_06.png)
+
+3. Click the instance of the workflow and you can explore the results of this execution. Within the `Lab_1_VerifyConnectivity` workflow you can click the `connect-to-azure` job. In the right-hand pane you can view the output of the individual steps (Azure Login, Checkout Code, Azure CLI Script) within this job.
+
+> ![lab_1_workflow_07](images/lab_1_workflow_07.gif)
+
+---
+
+## End of Lab 1
+
+Links to more learning:
+
+- **Azure Cli**: [https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
+- **GitHub Actions**: [https://help.github.com/en/actions/getting-started-with-github-actions/about-github-actions](https://help.github.com/en/actions/getting-started-with-github-actions/about-github-actions)
+- **GitHub Actions Core Concepts**: [https://help.github.com/en/actions/getting-started-with-github-actions/core-concepts-for-github-actions](https://help.github.com/en/actions/getting-started-with-github-actions/about-github-actions)
+- **Configuring a Workflow**: [https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow)
+
+![professortocat](images/Professortocat_v2.png)
