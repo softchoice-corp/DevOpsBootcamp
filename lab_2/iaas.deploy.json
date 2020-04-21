@@ -11,7 +11,7 @@
 		},
 		"webVmSize": {
 			"type": "string",
-			"defaultValue": "Standard_B4ms"
+			"defaultValue": "Standard_B1s"
 		},
 		"vnetName": {
 			"type": "string",
@@ -20,10 +20,6 @@
 		"webAvailSetName": {
 			"type": "string",
 			"defaultValue": "as-wdgt-dev"
-		},
-		"webLbDnsName": {
-			"type": "string",
-			"defaultValue": "widget-dev"
 		},
 		"webLbName": {
 			"type": "string",
@@ -47,14 +43,6 @@
 			"metadata": {
 				"description": "Password for the Virtual Machine."
 			}
-		},
-		"artifactLocation": {
-			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/acampbell1327/bootcamp/master"
-		},
-		"scriptName": {
-			"type": "string",
-			"defaultValue": "installwebserver.ps1"
 		}
 	},
 	"variables": {
@@ -62,12 +50,12 @@
 		"webLbFrontendIpConfigId": "[concat(variables('webLbId'), '/frontendIpConfigurations/lbFrontend')]",
 		"webLbBackendAddressPoolId": "[concat(variables('webLbId'), '/backendAddressPools/backendAddressPool')]",
 		"webLbProbeId": "[concat(variables('webLbId'), '/probes/httpProbe')]",
-		"imagePublisher": "MicrosoftWindowsServer",
-		"imageOffer": "WindowsServer",
-		"windowsOsVersion": "2019-Datacenter",
+		"imagePublisher": "Canonical",
+		"imageOffer": "UbuntuServer",
+		"ubuntuOsVersion": "18.04-LTS",
 		"vnetAddressSpace": "10.1.0.0/16",
 		"backendSubnetPrefix": "10.1.1.0/24",
-		"webSubnetPrefix": "10.1.99.0/24"
+		"webSubnetPrefix": "10.1.2.0/24"
 	},
 	"resources": [
 		{
@@ -113,7 +101,8 @@
 			},
 			"location": "[resourceGroup().location]",
 			"dependsOn": [
-				"[concat('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]"
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
+				"[concat('Microsoft.Network/loadBalancers/', parameters('webLbName'))]"
 			],
 			"properties": {
 				"ipConfigurations": [
@@ -130,11 +119,9 @@
 								}
 							]
 						}
-
 					}
 				]
 			}
-
 		},
 		{
 			"apiVersion": "2017-06-01",
@@ -154,20 +141,6 @@
 							"destinationAddressPrefix": "*",
 							"access": "Allow",
 							"priority": 1001,
-							"direction": "Inbound"
-						}
-					},
-					{
-						"name": "AllowRDP",
-						"properties": {
-							"description": "Allow RDP",
-							"protocol": "Tcp",
-							"sourcePortRange": "*",
-							"destinationPortRange": "3389",
-							"sourceAddressPrefix": "*",
-							"destinationAddressPrefix": "*",
-							"access": "Allow",
-							"priority": 1002,
 							"direction": "Inbound"
 						}
 					}
@@ -200,7 +173,7 @@
 					"imageReference": {
 						"publisher": "[variables('imagePublisher')]",
 						"offer": "[variables('imageOffer')]",
-						"sku": "[variables('windowsOsVersion')]",
+						"sku": "[variables('ubuntuOsVersion')]",
 						"version": "latest"
 					},
 					"osDisk": {
@@ -244,12 +217,8 @@
 			"name": "[parameters('webLbIpName')]",
 			"location": "[resourceGroup().location]",
 			"properties": {
-				"publicIPAllocationMethod": "Dynamic",
-				"dnsSettings": {
-					"domainNameLabel": "[parameters('webLbDnsName')]"
-				}
+				"publicIPAllocationMethod": "Dynamic"
 			}
-
 		},
 		{
 			"type": "Microsoft.Network/loadBalancers",
@@ -308,21 +277,7 @@
 					}
 				]
 			}
-
-
-
 		}
-
-
 	],
-	"outputs": {
-		"adminPassword": {
-			"type": "string",
-			"value": "[parameters('adminPassword')]"
-		},
-		"fqdn": {
-			"type": "string",
-			"value": "[reference(parameters('webLbIpName'), '2017-11-01').dnsSettings.fqdn]"
-		}
-	}
+	"outputs": {}
 }

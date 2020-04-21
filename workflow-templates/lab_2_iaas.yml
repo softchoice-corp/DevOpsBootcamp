@@ -10,7 +10,6 @@ name: Lab_2_IaaS
 env:
   RG_NAME: rg-widget-app
   LOCATION: eastus2
-  SCRIPT_URI: https://raw.githubusercontent.com/acampb/devopsbootcamp/master/script/build.ps1
 
 jobs:
 
@@ -37,12 +36,3 @@ jobs:
       with:
         inlineScript: |
           az deployment group create --resource-group $RG_NAME --template-file lab_2/iaas.deploy.json
-
-    #- run: |
-    #    az group create --name $RG_NAME --location $LOCATION
-
-    #- run: |
-    #    az group deployment create -g $RG_NAME --template-file arm_template/webservers.deploy.json
-
-
-

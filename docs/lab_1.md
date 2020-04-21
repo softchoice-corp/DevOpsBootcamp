@@ -83,9 +83,6 @@ The JSON properties names returned via Cloud Shell do not exactly match what is 
 
 ---
 
-TODO: Add some stuff about GH Actions
-
-
 1. Browse to the `workflows-templates\lab_1_connectivity.yml` file and copy all of the text.
 
 > ![lab_1_workflow_01](images/lab_1_workflow_01.png)
