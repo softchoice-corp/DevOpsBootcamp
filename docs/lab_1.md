@@ -4,6 +4,7 @@
 - [Create Azure Service Principal](#Create-Azure-Service-Principal)
 - [Create GitHub Credential Variable](#Create-GitHub-Credential-Variable)
 - [Configure GitHub Actions](#Configure-GitHub-Actions)
+- [Run GitHub Actions](#Run-GitHub-Actions)
 
 ---
 

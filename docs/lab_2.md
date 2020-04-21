@@ -1,9 +1,10 @@
 # Lab 2 - IaaS
 
-- [Create Repo from Template](#Create-Repo-From-Template)
-- [Create Azure Service Principal](#Create-Azure-Service-Principal)
-- [Create GitHub Credential Variable](#Create-GitHub-Credential-Variable)
 - [Configure GitHub Actions](#Configure-GitHub-Actions)
+- [Run GitHub Actions](#Run-GitHub-Actions)
+- [Scale Up Resources](#Scale-Up-Resources)
+- [Scale Out Resources](#Scale-Out-Resources)
+- [Clean Up Resources](#Clean-Up-Resources)
 
 ---
 
@@ -13,7 +14,9 @@ The second lab will deploy IaaS components consisting of Virtual Networking, Vir
 
 > Note: Lab 2 uses the same service principal credential we created in Lab 1.
 
-## Create Workflow
+---
+
+## Configure GitHub Actions
 
 1. Browse to the `workflows-templates\lab_2_iaas.yml` file and copy all of the text.
 
@@ -36,6 +39,8 @@ env:
 5. GitHub Actions files must be saved in a directory in your repo named `.github/workflows/`. The directory structure `.github/workflows/` should already exist in the path, name your workflow file `lab_2_iaas.yml` and click `Start Commit`.
 
 6. Add a short commit message and click `Commit new file`
+
+---
 
 ## Run GitHub Actions
 
@@ -88,7 +93,9 @@ The ARM template file defines several Azure resources to deploy:
 
 > ![lab_2_workflow_04](images/lab_2_workflow_04.png)
 
-## Scale Up
+---
+
+## Scale Up Resources
 
 We need to increase the CPU and Memory
 
@@ -122,7 +129,9 @@ We need to increase the CPU and Memory
 
 > ![lab_2_workflow_05](images/lab_2_workflow_05.png)
 
-## Scale Out
+---
+
+## Scale Out Resources
 
 Let's scale out the solution from 2 virtual machines to 4.
 
