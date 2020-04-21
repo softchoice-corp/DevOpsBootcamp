@@ -126,6 +126,8 @@ We need to increase the CPU and Memory
 
 Let's scale out the solution from 2 virtual machines to 4.
 
+> Note: Azure implements a vCPU quota per subscription, the default is 10 vCPUs. This portion of the lab will increase our vCPU usage to 8 (4 vm's x 2 vCPU's). If you have other virtual machines deployed in your subscription counting against this quota you may need to remove other virtual machines, or request a quota increase. [https://docs.microsoft.com/en-us/azure/azure-portal/supportability/resource-manager-core-quotas-request](https://docs.microsoft.com/en-us/azure/azure-portal/supportability/resource-manager-core-quotas-request)
+
 1. Navigate to **Code** and browse to the `lab_2/iaas.deploy.json` file.
 
 2. Click the pencil icon to edit the file. The first parameter; `webServerNames` is an array containing multiple server names. The ARM template contains logic that will loop through this array and create a virtual machine, nic, and disk for each server name specified. Add `vm-wdgt-dev-3` and `vm-wdgt-dev-4` to the list of server names.
@@ -154,7 +156,7 @@ Let's scale out the solution from 2 virtual machines to 4.
 
 > ![lab_2_workflow_08](images/lab_2_workflow_08.png)
 
-note about cpu core limits
+---
 
 ## Clean Up Resources
 
@@ -172,11 +174,13 @@ az group delete --name rg-widget-app
 
 Links to more learning:
 
-- **GitHub Actions Variables**
-- **Azure Resource Manager Deployments**
-- **ARM Templates**
-- **ARM Template Copy Function**
-- **Azure Virtual Network**
-- **Azure Virtual Machines**
-- **Azure Load Balancer**
-- **Azure Quotas**
+- **GitHub Actions Variables**: [https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables](https://help.github.com/en/actions/configuring-and-managing-workflows/using-environment-variables)
+- **Azure Resource Manager Deployments**: [https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/overview)
+- **ARM Templates**: [https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/overview)
+- **ARM Template Copy Element**: [https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/copy-resources](https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/copy-resources)
+- **Azure Virtual Network**: [https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview](https://docs.microsoft.com/en-us/azure/virtual-network/virtual-networks-overview)
+- **Azure Virtual Machines**: [https://docs.microsoft.com/en-us/azure/virtual-machines/linux/overview](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/overview)
+- **Azure Load Balancer**: [https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-overview](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-overview)
+- **Azure Virtual Machine Quotas**: [https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#virtual-machines-limits](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#virtual-machines-limits)
+
+![constructocat](images/constructocat2.jpg)
