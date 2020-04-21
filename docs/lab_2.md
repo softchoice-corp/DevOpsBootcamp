@@ -114,11 +114,11 @@ We need to increase the CPU and Memory
 
 > ![lab_2_workflow_02](images/lab_2_workflow_02.png)
 
-4. Navigate to **Actions** and you should see your workflow exectuing.
+4. Navigate to **Actions** and you should see your workflow executing.
 
 > ![lab_2_ workflow_03](images/lab_2_workflow_03.png)
 
-5. Once the workflow is completed we can open the Azure portal and confirm the virtual machines have been reconfigured to the new size.
+5. Once the workflow is completed we can open the Azure Portal and confirm the virtual machines have been reconfigured to the new size.
 
 > ![lab_2_workflow_05](images/lab_2_workflow_05.png)
 
@@ -126,6 +126,57 @@ We need to increase the CPU and Memory
 
 Let's scale out the solution from 2 virtual machines to 4.
 
+1. Navigate to **Code** and browse to the `lab_2/iaas.deploy.json` file.
 
+2. Click the pencil icon to edit the file. The first parameter; `webServerNames` is an array containing multiple server names. The ARM template contains logic that will loop through this array and create a virtual machine, nic, and disk for each server name specified. Add `vm-wdgt-dev-3` and `vm-wdgt-dev-4` to the list of server names.
+
+```json
+"webServerNames": {
+	"type": "array",
+	"defaultValue": [
+		"vm-wdgt-dev-1",
+		"vm-wdgt-dev-2",
+		"vm-wdgt-dev-3",
+		"vm-wdgt-dev-4"
+	]
+},
+```
+
+3. Enter a commit message and click `Commit changes`
+
+> ![lab_2_workflow_06](images/lab_2_workflow_06.png)
+
+4. Navigate to **Actions** and you should see your workflow executing.
+
+> ![lab_2_workflow_07](images/lab_2_workflow_07.png)
+
+5. Once the workflow is completed we can open the Azure Portal and confirm there are now four virtual machines deployed. We can also check the Load Balancer and see that all 4 are already configured in the backend server pool.
+
+> ![lab_2_workflow_08](images/lab_2_workflow_08.png)
 
 note about cpu core limits
+
+## Clean Up Resources
+
+To mimimize billing usage in your subscription we can remove all of the resources we deployed with GitHub Actions by deleting the Resource Group they are held in. From Azure Cloud Shell run the following command:
+
+```python
+az group delete --name rg-widget-app
+```
+
+> Note: If you modified the Resource Group name variable at the beginning of Lab 2 you will need to provide the correct Resource Group name.
+
+---
+
+## End of Lab 2
+
+Links to more learning:
+
+- **GitHub Actions Variables**
+- **Azure Resource Manager Deployments**
+- **ARM Templates**
+- **ARM Template Copy Function**
+- **Azure Virtual Network**
+- **Azure Virtual Machines**
+- **Azure Load Balancer**
+- **Azure Quotas**
