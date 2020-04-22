@@ -57,6 +57,6 @@ The third lab will deploy PaaS components consisting of App Service, Web App, we
 
 ---
 
-<a href="azure.com" target="_blank">azure.com</a>
+<a href="https://azure.com" target="_blank">https://azure.com</a>
 
 ![Microsoft+GitHub](docs/images/microsoft_github.png)
