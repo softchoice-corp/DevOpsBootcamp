@@ -16,7 +16,7 @@
 
 > ![template_01](images/lab_1_template_01.png)
 
-3. Provide a new repository name and descrition. The repo can be left as `Public`, and leave the `Include all branches` option unselected. Click the green **Create repository from template** button.
+3. Provide a new repository name and description. The repo can be left as `Public`, and leave the `Include all branches` option unselected. Click the green **Create repository from template** button.
 
 > ![lab_1_template_02](images/lab_1_template_02.png)
 
