@@ -1,0 +1,48 @@
+/* html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+} */
+
+main > .container {
+  padding: 60px 15px 0;
+}
+
+p {
+  margin: 1em;
+}
+
+.bg-orange {
+  background-color: #ffa500;
+}
+
+.bg-orange-softchoice {
+  background-color: #f3590f;
+}
+
+.footer {
+  /* background-color: beige; */
+  background-color: #fdfdd3;
+}
+
+/* .footer > .container { */
+/* padding-left: 15px;
+  padding-right: 15px; */
+/* padding: 5px 5px; */
+/* width: 100%; */
+/* } */
+
+/* .footer > .container > ul { */
+/* width: 100%; */
+/* margin-left: auto;
+  margin-right: auto; */
+/* } */
+
+.footer > .container > ul > li {
+  margin-left: auto;
+  margin-right: auto;
+}

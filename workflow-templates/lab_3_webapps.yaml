@@ -1,0 +1,67 @@
+on: push
+
+name: nodejs_express_website
+
+env:
+  RG_NAME: lab3rg
+  LOCATION: eastus
+  # RG_NAME: rg-lab-3
+  # LOCATION: eastus2
+  AZURE_WEBAPP_NAME: bootcamp-ctt-test
+  AZURE_WEBAPP_PACKAGE_PATH: ./lab_3/app
+
+jobs:
+  deploy-to-azure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS2 }}
+
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Create resource group
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            # az deployment create --location
+            az group create --name $RG_NAME --location $LOCATION
+
+      - name: Create Web App Service via ARM template
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az deployment group create --resource-group ${RG_NAME} --template-file lab_3/webapps.deploy.json
+
+      - name: Setup Node 12.14.0
+        uses: actions/setup-node@v1
+        with:
+          node-version: "12.4.0"
+
+      - name: npm install
+        run: |
+          cd ${AZURE_WEBAPP_PACKAGE_PATH}
+          npm install
+
+      - name: npm test
+        run: |
+          npm test
+
+      - name: test pass message
+        if: success()
+        run: |
+          echo "npm tests passed! ready to deploy"
+
+      - name: test fail message
+        if: failure()
+        run: |
+          echo "npm tests failed! please check your code"
+
+      - name: Deploy to Azure WebApp
+        uses: azure/webapps-deploy@v2
+        if: success()
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
