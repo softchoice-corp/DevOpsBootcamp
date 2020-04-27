@@ -73,7 +73,7 @@
 		},
 		"Url": {
 			"type": "string",
-			"value": "[reference(variables('webAppPortalName'), '2018-11-01').properties.hostNames[0]]"
+			"value": "[reference(variables('webAppPortalName'), '2018-11-01').hostNames[0]]"
 
 		}
 	}
