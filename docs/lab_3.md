@@ -3,7 +3,8 @@
 - [Create Azure Web App](#Create-Azure-Web-App)
 - [Configure GitHub Actions](#Configure-GitHub-Actions)
 - [Run GitHub Actionsx](#Run-GitHub-Actions)
-- [Automate Application Re-Deployment of Changes](#Automate-Application-Re-Deployment-of-Changes)
+- [Update Image](#Update-Image)
+- [Unit Testing](#Unit-Testing)
 <!-- - [Scale Out Resources](#Scale-Out-Resources)
 - [Clean Up Resources](#Clean-Up-Resources) -->
 
@@ -61,4 +62,6 @@ The workflow we just created is triggered by changes made to the files in the `l
 
 2. Navigate to **Actions** and you should see your `Lab_3_WebApp` workflow executing.
 
-## Automate Application Re-Deployment of Changes
+## Update Image
+
+## Unit Testing
