@@ -2,7 +2,7 @@
 
 - [Create Azure Web App](#Create-Azure-Web-App)
 - [Configure GitHub Actions](#Configure-GitHub-Actions)
-- [Deploy Application to Azure with GitHub Actions](#Deploy-Application-to-Azure-with-GitHub-Actions)
+- [Run GitHub Actionsx](#Run-GitHub-Actions)
 - [Automate Application Re-Deployment of Changes](#Automate-Application-Re-Deployment-of-Changes)
 <!-- - [Scale Out Resources](#Scale-Out-Resources)
 - [Clean Up Resources](#Clean-Up-Resources) -->
@@ -49,27 +49,16 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: ./lab_3/app
 ```
 
-
 5. GitHub Actions files must be saved in a directory in your repo named `.github/workflows/`. The directory structure `.github/workflows/` should already exist in the path, name your workflow file `lab_3_webapps.yaml` and click `Start Commit`.
 
 6. Add a short commit message and click `Commit new file`.
 
-7. We will also need to modify the ARM template for the Azure Web App resource creation to align with the unique name provided in the step 4.
+## Run GitHub Actions
 
-   Navigate to **Code**, open `lab_3/` directory, and open `webapps.deploy.json` file.
+The workflow we just created is triggered by changes made to the files in the `lab_3/` directory. Let's make a change here to kick off the workflow. The `readme.txt` can be modified by simply adding a new line or some text. The act of committing this change to the `master` branch will instruct GitHub Actions to kick off our workflow.
 
-   Update the `defaultValue` for the `webAppName` parameter to the unique name.
+1. Navigate to **Code**, and browse to the `lab_3/readme.txt` file. Click the pencil icon to edit the file, and add a new line. Provide a commit message and commit your change.
 
-> ![lab_3_workflow_01](images/lab_3_workflow_01.jpg)
-
-8. Enter a commit message and click `Commit changes`.
-
-> ![lab_3_workflow_02](images/lab_3_workflow_02.jpg)
-
-The last commit to change the Azure Web App name causes a run of the Actions.
-
-![lab_3_workflow_03](images/lab_3_workflow_03.jpg)
-
-## Deploy Application to Azure with GitHub Actions
+2. Navigate to **Actions** and you should see your `Lab_3_WebApp` workflow executing.
 
 ## Automate Application Re-Deployment of Changes
