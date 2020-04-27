@@ -32,7 +32,7 @@
 		}
 	},
 	"variables": {
-		"webAppPortalName": "[concat(parameters('webAppName'), uniqueString(subscription().subscriptionId))]",
+		"webAppPortalName": "[concat(parameters('webAppName'), '-', uniqueString(subscription().subscriptionId))]",
 		"appServicePlanName": "[concat('plan-', parameters('webAppName'))]"
 	},
 	"resources": [
@@ -67,9 +67,14 @@
 		}
 	],
 	"outputs": {
-		"AZURE_WEBAPP_NAME": {
+		"UniqueWebAppName": {
 			"type": "string",
 			"value": "[variables('webAppPortalName')]"
+		},
+		"Url": {
+			"type": "string",
+			"value": "[reference(variables('webAppPortalName'), '2018-11-01').properties.hostNames[0]]"
+
 		}
 	}
 }
