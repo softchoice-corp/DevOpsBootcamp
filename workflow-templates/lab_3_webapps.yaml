@@ -1,13 +1,13 @@
-on: push
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'lab_3/*'
 
-name: nodejs_express_website
-
+name: Lab_3_WebApp
 env:
-  RG_NAME: lab3rg
-  LOCATION: eastus
-  # RG_NAME: rg-lab-3
-  # LOCATION: eastus2
-  AZURE_WEBAPP_NAME: bootcamp-ctt-test
+  AZURE_WEBAPP_NAME: azure-webapp-unique-name
   AZURE_WEBAPP_PACKAGE_PATH: ./lab_3/app
 
 jobs:
@@ -22,19 +22,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Create resource group
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            # az deployment create --location
-            az group create --name $RG_NAME --location $LOCATION
-
-      - name: Create Web App Service via ARM template
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az deployment group create --resource-group ${RG_NAME} --template-file lab_3/webapps.deploy.json
-
       - name: Setup Node 12.14.0
         uses: actions/setup-node@v1
         with:
@@ -47,6 +34,7 @@ jobs:
 
       - name: npm test
         run: |
+          cd ${AZURE_WEBAPP_PACKAGE_PATH}
           npm test
 
       - name: test pass message
