@@ -24,6 +24,12 @@ Create the Azure Web App that the pipeline will deploy to. Open Azure Cloud Shel
 New-AzResourceGroup -Name 'rg-lab-3' -Location 'eastus2'
 ```
 
+2. Create the Azure Web App
+
+```powershell
+New-AzResourceGroupDeployment -ResourceGroupName 'rg-lab-3' -TemplateUri https://raw.githubusercontent.com/softchoice-corp/DevOpsBootcamp/master/lab_3/webapps.deploy.json -Verbose
+```
+
 The ARM template deployment will create a unique name for the Web App and return it on the console under `Outputs`. Make a note of the `uniqueWebAppName` value, we will use it later to configure our GitHub Actions pipeline.
 
 ## Configure GitHub Actions
