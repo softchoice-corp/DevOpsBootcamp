@@ -69,13 +69,13 @@ The `jobs:` section is also similar to our Lab 1 workflow, but we're using the `
       uses: azure/CLI@v1
       with:
         inlineScript: |
-		  az group create --name $RG_NAME --location $LOCATION
+          az group create --name $RG_NAME --location $LOCATION
 
     - name: Deploy ARM Template
       uses: azure/CLI@v1
       with:
-        inlineScript: |
-		  az deployment group create --resource-group $RG_NAME --template-file lab_2/iaas.deploy.json
+		inlineScript: |
+          az deployment group create --resource-group $RG_NAME --template-file lab_2/iaas.deploy.json
 ```
 
 The ARM template file defines several Azure resources to deploy:
