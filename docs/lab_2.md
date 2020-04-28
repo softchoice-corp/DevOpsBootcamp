@@ -65,17 +65,17 @@ env:
 The `jobs:` section is also similar to our Lab 1 workflow, but we're using the `azure/CLI@v1` Action to run two Azure CLI commands as inline scripts. These are used to create the Azure Resource Group, and then perform and Azure Resource Manager deployment into that Resource Group using the ARM Template `lab_2/iaas.deploy.json`.
 
 ```yaml
-    - name: Create Resource Group
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          az group create --name $RG_NAME --location $LOCATION
+- name: Create Resource Group
+    uses: azure/CLI@v1
+    with:
+      inlineScript: |
+        az group create --name $RG_NAME --location $LOCATION
 
-    - name: Deploy ARM Template
-      uses: azure/CLI@v1
-      with:
-		inlineScript: |
-          az deployment group create --resource-group $RG_NAME --template-file lab_2/iaas.deploy.json
+- name: Deploy ARM Template
+    uses: azure/CLI@v1
+    with:
+      inlineScript: |
+        az deployment group create --resource-group $RG_NAME --template-file lab_2/iaas.deploy.json
 ```
 
 The ARM template file defines several Azure resources to deploy:
