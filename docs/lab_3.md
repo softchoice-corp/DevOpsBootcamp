@@ -104,7 +104,7 @@ The workflow we just created is triggered by changes made to the files in the `l
 
 ## Unit Testing
 
-We have deployed our application successfully due to no unit test errors. We will not introduce an error into the application.
+We have deployed our application successfully due to the defined unit tests passing successfully. We will now intentionally introduce an error into the application.
 
 1. Navigate to **Code**, open the `lab_3/app/` directory and open the `index.js` file.
 
@@ -146,3 +146,15 @@ We have deployed our application successfully due to no unit test errors. We wil
 This demonstrates some of the flexibility of GitHub Action Workflows. Click [here](https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions) for more information on other constructs and Workflow syntax.
 
 8. Fix the Workflow by correcting the `lab_3/app/index.js` file with the proper text and commit the change.
+
+---
+
+## End of Lab 3
+
+Links to more learning:
+
+- **Azure App Service**: [https://docs.microsoft.com/en-us/azure/app-service/overview](https://docs.microsoft.com/en-us/azure/app-service/overview)
+- **Node.js in Azure**: [https://docs.microsoft.com/en-us/azure/app-service/app-service-web-get-started-nodejs](https://docs.microsoft.com/en-us/azure/app-service/app-service-web-get-started-nodejs)
+- **Unit Testing**: [https://en.wikipedia.org/wiki/Unit_testing](https://en.wikipedia.org/wiki/Unit_testing)
+
+![topguntocat](images/topguntocat.png)

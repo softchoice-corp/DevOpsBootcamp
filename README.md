@@ -49,11 +49,23 @@ The second lab will deploy IaaS components consisting of Virtual Networking, Vir
 
 The third lab will deploy PaaS components consisting of App Service, Web App, website code, using an Azure Resource Manager Template via a GitHub Actions CI/CD pipeline.
 
-- Modify ARM Template
-- Create GitHub Workflow
-- Modify website code
+- Create Azure Web App
+- Configure GitHub Actions
+- Run GitHub Actions
+- Continuous Deployment of Changes
+- Unit Testing
 
 [**Start Lab 3 - Deploy Web App**](docs/lab_3.md)
+
+---
+
+## Lab 4 - CIO Challenge
+
+The fourth lab is intended for one of the lab facilitators to run as a demo, not for each attendee to deploy in their lab environment due to the amount of infrastructure which is deployed. If you deploy this lab please be aware of subscription quota limitations, and cost considerations.
+
+- Deploy Solution
+
+[**Start Lab 4 - CIO Challenge**](docs/lab_4.md)
 
 ---
 

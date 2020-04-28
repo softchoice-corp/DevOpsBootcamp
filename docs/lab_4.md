@@ -1,16 +1,16 @@
 # Lab 4 - Deploy 75 Servers
 
-- [Create Azure Web App](#Create-Azure-Web-App)
-- [Configure GitHub Actions](#Configure-GitHub-Actions)
-- [Run GitHub Actions](#Run-GitHub-Actions)
-- [Continuous Deployment of Changes](#Continuous-Deployment-of-Changes)
-- [Unit Testing](#Unit-Testing)
+- [Create ARM Template Deployment](#Create-ARM-Template-Deployment)
 
 ---
 
 ## Overview
 
 The fourth lab is a demo of how we can quickly deploy 75 servers to Azure.
+
+> Note: Executing the cmdlet's below will result in **75** Standard_B1s servers being deployed in your environment. If you have not requested a vCPU quota increase on your subscription for *Standard BS Family vCPUs* this will not complete successfully.
+
+> ![lab_4_quota](images/lab_4_quota.png)
 
 ## Create ARM Template Deployment
 
@@ -27,3 +27,9 @@ New-AzResourceGroup -Name 'rg-lab-4' -Location 'eastus2'
 ```powershell
 New-AzResourceGroupDeployment -ResourceGroupName 'rg-lab-4' -TemplateUri https://raw.githubusercontent.com/softchoice-corp/DevOpsBootcamp/master/lab_4/75serversolution.deploy.json -Verbose
 ```
+
+---
+
+## End of Lab 4
+
+![cloudcat](images/cloudcat.jpg)
