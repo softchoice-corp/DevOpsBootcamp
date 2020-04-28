@@ -3,7 +3,7 @@ on:
     branches:
       - master
     paths:
-      - 'lab_3/*'
+      - 'lab_3/**'
 
 name: Lab_3_WebApp
 env:

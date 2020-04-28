@@ -3,7 +3,7 @@ on:
     branches:
       - master
     paths:
-      - 'lab_1/*'
+      - 'lab_1/**'
 
 name: Lab_1_VerifyConnectivity
 
