@@ -1,0 +1,136 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"vmSize": {
+			"type": "string",
+			"defaultValue": "Standard_B1s"
+		},
+		"vnetName": {
+			"type": "string",
+			"defaultValue": "vnet-wdgt-dev"
+		},
+		"adminUsername": {
+			"type": "string",
+			"defaultValue": "devopsadmin"
+		},
+		"adminPassword": {
+			"type": "string",
+			"defaultValue": "Password1234",
+			"metadata": {
+				"description": "Password for the Virtual Machine."
+			}
+		}
+	},
+	"variables": {
+		"copyCount": 75,
+		"imagePublisher": "Canonical",
+		"imageOffer": "UbuntuServer",
+		"ubuntuOsVersion": "18.04-LTS",
+		"vnetAddressSpace": "10.1.0.0/16",
+		"backendSubnetPrefix": "10.1.1.0/24"
+	},
+	"resources": [
+		{
+			"apiVersion": "2016-08-01",
+			"type": "Microsoft.Network/virtualNetworks",
+			"name": "[parameters('vnetName')]",
+			"location": "[resourceGroup().location]",
+			"dependsOn": [],
+			"properties": {
+				"addressSpace": {
+					"addressPrefixes": [
+						"[variables('vnetAddressSpace')]"
+					]
+				},
+				"subnets": [
+					{
+						"name": "subnet01",
+						"properties": {
+							"addressPrefix": "[variables('backendSubnetPrefix')]"
+						}
+					},
+				]
+			}
+		},
+		{
+			"type": "Microsoft.Network/networkInterfaces",
+			"apiVersion": "2017-11-01",
+			"name": "[concat('nic-vm-', copyIndex())]",
+			"copy": {
+				"name": "nicCopy",
+				"count": "[variables('copyCount')]"
+			},
+			"location": "[resourceGroup().location]",
+			"dependsOn": [
+				"[concat('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]"
+			],
+			"properties": {
+				"ipConfigurations": [
+					{
+						"name": "ipconfig01",
+						"properties": {
+							"subnet": {
+								"id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), 'subnet01')]"
+							},
+							"privateIPAllocationMethod": "Dynamic"
+						}
+					}
+				]
+			}
+		},
+		{
+			"apiVersion": "2017-03-30",
+			"type": "Microsoft.Compute/virtualMachines",
+			"copy": {
+				"name": "vmCopy",
+				"count": "[variables('copyCount')]"
+			},
+			"name": "[concat('vm-', copyIndex())]",
+			"location": "[resourceGroup().location]",
+			"dependsOn": [
+				"[resourceId('Microsoft.Network/networkInterfaces', concat('nic-vm-', copyIndex()))]"
+			],
+			"properties": {
+				"hardwareProfile": {
+					"vmSize": "[parameters('vmSize')]"
+				},
+				"osProfile": {
+					"computerName": "[concat('vm-', copyIndex())]",
+					"adminUsername": "[parameters('adminUsername')]",
+					"adminPassword": "[parameters('adminPassword')]"
+				},
+				"storageProfile": {
+					"imageReference": {
+						"publisher": "[variables('imagePublisher')]",
+						"offer": "[variables('imageOffer')]",
+						"sku": "[variables('ubuntuOsVersion')]",
+						"version": "latest"
+					},
+					"osDisk": {
+						"createOption": "FromImage"
+					}
+				},
+				"networkProfile": {
+					"networkInterfaces": [
+						{
+							"id": "[resourceId('Microsoft.Network/networkInterfaces', concat('nic-vm-', copyIndex()))]"
+						}
+					]
+				},
+				"diagnosticsProfile": {
+					"bootDiagnostics": {
+						"enabled": false
+					}
+				}
+			},
+			"resources": []
+		}
+	],
+	"outputs": {
+		"reminder": {
+			"type": "string",
+			"value": "Dont forget to delete these VMs"
+		}
+	}
+}
