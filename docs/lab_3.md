@@ -82,7 +82,7 @@ The workflow we just created is triggered by changes made to the files in the `l
 
 > ![lab_3_workflow_continuous_deployment_01](images/lab_3_workflow_continuous_deployment_01.jpg)
 
-3. Go [here](https://octodex.github.com/) and copy the address of an Octodex that you like.
+3. Go to [https://octodex.github.com/](https://octodex.github.com/) and copy the address of an Octodex that you like.
 
 4. Update the `alt` and `src` attribute of the octodex `img` tag with description and copied address, respectively.
 
@@ -96,7 +96,7 @@ The workflow we just created is triggered by changes made to the files in the `l
 
 > ![lab_3_workflow_continuous_deployment_04](images/lab_3_workflow_continuous_deployment_04.jpg)
 
-7. When the workflow finished executing. Open your browser and refresh or open the `<Azure Web App name>.azurewebsites.net` website to observe the change in the application.
+7. When the workflow finishes executing, open your browser and refresh or go to the `<Azure Web App name>.azurewebsites.net` website to observe the change in the application.
 
 > ![lab_3_workflow_continuous_deployment_05_fullpage](images/lab_3_workflow_continuous_deployment_05_fullpage.jpg)
 
