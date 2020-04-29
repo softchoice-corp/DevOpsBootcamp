@@ -26,3 +26,15 @@ If using an existing subscription, confirm you are a Global Admin in Azure Activ
 Make sure you're not trying to modify the softchoice-corp repo
 
 In lab 1 you will create a new `MyDevOpsBootcamp` repo in your account by using the softchoice-corp template. You need to make sure that when you push the code you changed during the lab that you are executing the commits in your local repo otherwise you will receive a permission error. Remember, you do not have permission to make changes to the template itself (github.com/softchoice-corp/MyDevOpsBootcamp) only the repos you create in your account.
+
+## How do I find the Client Id/Secret used in Lab 1?
+
+After running the following code in Cloud Shell 'az ad sp create-for-rbac --name GitHubActions' you will have a response with the following information that includes the client ID and secret: 
+- AppId (Client ID in Github)
+- Display Name
+- Password (Client Secret in Github)
+- Tenant (AAD Tenant ID)
+
+## I created my GitHubAction service principal but my Github actions still report an authentication error, how do I fix this?
+
+This usually happens if you ran the 'az ad sp create-for-rbac --name GitHubActions' command a second time, or if you went into the properties (Certificates & Secrets) of the GitHubAction App Registration in the Azure Portal and generated a new client secret. It is easiest to generate a new client secret, since it is only shown the first time you perform one of these actions, so now copy the needed secret and corresponding information needed in this lab step: https://github.com/softchoice-corp/DevOpsBootcamp/blob/master/docs/lab_1.md#create-azure-service-principal
