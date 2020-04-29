@@ -74,7 +74,7 @@ The workflow we just created is triggered by changes made to the files in the `l
 
 ## Continuous Deployment of Changes
 
-> GitHub provides an action on GitHub marketplace to simplify deployments to Azure Web App application called `webapps-deploy`. For more information go [here](https://github.com/marketplace/actions/azure-webapp) for more information.
+> GitHub provides an action on GitHub marketplace to simplify deployments to Azure Web App application called `webapps-deploy`. Go to [https://github.com/marketplace/actions/azure-webapp](https://github.com/marketplace/actions/azure-webapp) for more information.
 
 1. Navigate to **Code**, open the `lab_3/app/public` directory and open the `index.html` file.
 
@@ -143,7 +143,7 @@ We have deployed our application successfully due to the defined unit tests pass
     echo "npm tests failed! please check your code"
 ```
 
-This demonstrates some of the flexibility of GitHub Action Workflows. Click [here](https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions) for more information on other constructs and Workflow syntax.
+This demonstrates some of the flexibility of GitHub Action Workflows. Go to [https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions](https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions) for more information on other constructs and Workflow syntax.
 
 8. Fix the Workflow by correcting the `lab_3/app/index.js` file with the proper text and commit the change.
 
