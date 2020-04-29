@@ -89,7 +89,7 @@ The ARM template file defines several Azure resources to deploy:
 
 > ![lab_2_diagram](images/lab_2_diagram.png)
 
-3. Once the workflow has completed you can access the Azure Portal ([https://portal.azure.com](https://portal.azure.com)) and view the resources the workflow created. In the Azure Portal click the top left &#2630; hamburger menu, click **Resource Groups**, and select `rg-lab-2`.
+3. Once the workflow has completed you can access the Azure Portal ([https://portal.azure.com](https://portal.azure.com)) and view the resources the workflow created. In the Azure Portal click the top left &#9776; hamburger menu, click **Resource Groups**, and select `rg-lab-2`.
 
 > ![lab_2_workflow_04](images/lab_2_workflow_04.gif)
 
