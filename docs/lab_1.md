@@ -20,7 +20,7 @@
 
 > ![lab_1_template_02](images/lab_1_template_02.png)
 
-4. Once the repository creation is completed you should see that your new repo is in your account, and was generated from *softchoice-corp/DevOpsBootcamp*.
+4. Once the repository creation is completed you should see that your new repo is in your account, and was generated from _softchoice-corp/DevOpsBootcamp_.
 
 > ![lab_1_template_03](images/lab_1_template_03.png)
 
@@ -57,22 +57,22 @@ Azure will generate a strong password for the service principal and return it in
 The JSON properties names returned via Cloud Shell do not exactly match what is required for GitHub Actions. We will need to manually format a JSON object with the required property names.
 
 | GitHub Property Name | Az CLI Property Name |
-| --- | --- |
-| `clientId` | `appId` |
-| `clientSecret` | `password` |
-| `subscriptionId` | *not provided* |
-| `tenantId` | `tenant` |
+| -------------------- | -------------------- |
+| `clientId`           | `appId`              |
+| `clientSecret`       | `password`           |
+| `subscriptionId`     | _not provided_       |
+| `tenantId`           | `tenant`             |
 
 > Note: Az CLI does not return the Azure Subscription Id in the response when creating a new service principal object. You can obtain this value by using this command: `az account show --query "id"`
 
-1. Copy the JSON code block below, replacing *GUID* with each value from your Azure environment.
+1. Copy the JSON code block below, replacing _GUID_ with each value from your Azure environment.
 
 ```json
 {
-    "clientId": "GUID",
-    "clientSecret": "GUID",
-    "subscriptionId": "GUID",
-    "tenantId": "GUID"
+  "clientId": "GUID",
+  "clientSecret": "GUID",
+  "subscriptionId": "GUID",
+  "tenantId": "GUID"
 }
 ```
 
@@ -112,8 +112,7 @@ on:
     branches:
       - master
     paths:
-      - 'lab_1/*'
-
+      - "lab_1/**"
 ```
 
 The `name:` section gives the workflow a name, visible in the `Actions` area of the repo. This code names the workflow `Lab_1_VerifyConnectivity`.
@@ -130,25 +129,23 @@ The `jobs:` section instructs the workflow on what to actually do. Each job is m
 
 ```yaml
 jobs:
-
   connect-to-azure:
     runs-on: ubuntu-latest
     steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Checkout Code
+        uses: actions/checkout@v2
 
-    - name: Checkout Code
-      uses: actions/checkout@v2
-
-    - name: Azure CLI Script
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          chmod +x ./lab_1/list_resourcegroups.sh
-          ./lab_1/list_resourcegroups.sh
+      - name: Azure CLI Script
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            chmod +x ./lab_1/list_resourcegroups.sh
+            ./lab_1/list_resourcegroups.sh
 ```
 
 Navigate to the `lab_1/list_resourcegroups.sh` and we can examine what the script being executed by the action will actually do. We can see this script will simply show the account which is authenticated to Azure (this will be the service principal), and list the Resource Groups in the Azure subscription in a table format.
