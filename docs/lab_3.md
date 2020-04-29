@@ -149,6 +149,14 @@ This demonstrates some of the flexibility of GitHub Action Workflows. Click [her
 
 ---
 
+## Clean Up Resources
+
+To mimimize billing usage in your subscription we can remove all of the resources we deployed with GitHub Actions by deleting the Resource Group they are held in. From Azure Cloud Shell run the following command:
+
+```python
+az group delete --name rg-lab-3
+```
+
 ## End of Lab 3
 
 Links to more learning:

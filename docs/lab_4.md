@@ -22,10 +22,20 @@ Create the Azure Resource Group for lab 4 and start an ARM Template Deployment f
 New-AzResourceGroup -Name 'rg-lab-4' -Location 'eastus2'
 ```
 
-2. Create the Azure Web App
+2. Create the ARM Deployment
 
 ```powershell
 New-AzResourceGroupDeployment -ResourceGroupName 'rg-lab-4' -TemplateUri https://raw.githubusercontent.com/softchoice-corp/DevOpsBootcamp/master/lab_4/75serversolution.deploy.json -Verbose
+```
+
+---
+
+## Clean Up Resources
+
+To mimimize billing usage in your subscription we can remove all of the resources we deployed with GitHub Actions by deleting the Resource Group they are held in. From Azure Cloud Shell run the following command:
+
+```python
+az group delete --name rg-lab-4
 ```
 
 ---
