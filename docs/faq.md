@@ -4,6 +4,7 @@
 
 No, you can use different email addresses.
 
-## Another question
+## How do I find my Azure Subscription ID?
 
-Another answer
+Method 1: from the cloud shell, run the command az account show --query "id"
+Method 2: from the Azure Portal, use the search box and type Subscriptions, view the list of your subscription(s) with their subscription ID
