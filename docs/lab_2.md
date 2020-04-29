@@ -18,13 +18,13 @@ The second lab will deploy IaaS components consisting of Virtual Networking, Vir
 
 ## Configure GitHub Actions
 
-1. Browse to the `workflows-templates\lab_2_iaas.yml` file and copy all of the text.
+1. In GitHub Navigate to the **Code** tab, browse to the `workflow-templates` directory, and open the `lab_2_iaas.yml` file and copy all of the text.
 
-> ![lab_2_workflow_01](images/lab_2_workflow_01.png)
+> ![lab_2_workflow_09](images/lab_2_workflow_09.gif)
 
 2. Navigate to **Actions** and click **New workflow**. If prompted to start with a sample workflow click the `Set up a workflow yourself` button in the top right.
 
-3. Replace all of the sample workflow code in the editor by pasting all the code you copied from `workflows-templates/lab_2_iaas.yml`.
+3. Replace all of the sample workflow code in the editor by pasting all the code you copied from `workflow-templates/lab_2_iaas.yml`.
 
 4. In this workflow we are using Environmental Variables to define the name of the Azure Resource Group to be created, and the Azure Region to deploy the resources in. Modify this section of the file to specify different values if desired.
 
@@ -89,9 +89,9 @@ The ARM template file defines several Azure resources to deploy:
 
 > ![lab_2_diagram](images/lab_2_diagram.png)
 
-3. Once the workflow has completed you can access the Azure Portal and view the resources it created.
+3. Once the workflow has completed you can access the Azure Portal ([https://portal.azure.com](https://portal.azure.com)) and view the resources the workflow created. In the Azure Portal click the top left &#2630; hamburger menu, click **Resource Groups**, and select `rg-lab-2`.
 
-> ![lab_2_workflow_04](images/lab_2_workflow_04.png)
+> ![lab_2_workflow_04](images/lab_2_workflow_04.gif)
 
 ---
 
