@@ -4,6 +4,19 @@
 
 No, you can use different email addresses.
 
-## Another question
+## How do I find my Azure Subscription ID?
 
-Another answer
+Method 1: from the cloud shell, run the command `az account show --query "id"`
+Method 2: from the Azure Portal, use the search box and type Subscriptions, view the list of your subscription(s) with their subscription ID
+
+## Can I use my work email if signing up for a free Azure Account?
+
+You should use a personal email when signing up for a free Azure Account, since someone else at your company could have already signed up and you may not be able to create another free account linked to the same organization.
+
+## What permissions, roles, or rights do I need in my Azure Subscription or AAD Tenant?
+
+If using your own free Azure Subscription, your account will be both a Global Admin in your Azure Active Directory (AAD) tenant (example: myemailaddress.onmicrosoft.com) and your account will also be an Owner Role (IAM) on the subscription.
+
+If using an existing subscription, confirm you are a Global Admin in Azure Active Directory, and confirm you are an Owner of the subscription.
+- Azure Active Directory Global Administrator: https://docs.microsoft.com/en-us/azure/active-directory/users-groups-roles/directory-assign-admin-roles
+- Subscription Owner, also called Access Control or IAM, or Role Based Access Control (RBAC): https://docs.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal
