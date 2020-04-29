@@ -30,7 +30,7 @@ The second lab will deploy IaaS components consisting of Virtual Networking, Vir
 
 ```yaml
 env:
-  RG_NAME: rg-widget-app
+  RG_NAME: rg-lab-2
   LOCATION: eastus2
 ```
 
@@ -58,7 +58,7 @@ The `env:` section defines two environment variables. These are two variables th
 
 ```yaml
 env:
-  RG_NAME: rg-widget-app
+  RG_NAME: rg-lab-2
   LOCATION: eastus2
 ```
 
@@ -172,7 +172,7 @@ Let's scale out the solution from 2 virtual machines to 4.
 To mimimize billing usage in your subscription we can remove all of the resources we deployed with GitHub Actions by deleting the Resource Group they are held in. From Azure Cloud Shell run the following command:
 
 ```python
-az group delete --name rg-widget-app
+az group delete --name rg-lab-2
 ```
 
 > Note: If you modified the Resource Group name variable at the beginning of Lab 2 you will need to provide the correct Resource Group name.

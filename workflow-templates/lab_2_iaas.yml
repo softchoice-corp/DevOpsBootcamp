@@ -8,7 +8,7 @@ on:
 name: Lab_2_IaaS
 
 env:
-  RG_NAME: rg-widget-app
+  RG_NAME: rg-lab-2
   LOCATION: eastus2
 
 jobs:
