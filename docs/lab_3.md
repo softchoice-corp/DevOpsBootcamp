@@ -130,7 +130,7 @@ We have deployed our application successfully due to the defined unit tests pass
 
 > ![lab_3_workflow_unit_testing_06](images/lab_3_workflow_unit_testing_06.jpg)
 
-6. Notice that the `API test` unit test failed and the `Deploy to Azure WebApp` was not skipped. This is the default behaviour.
+6. Notice that the `API test` unit test failed and the `Deploy to Azure WebApp` was skipped. This is the default behaviour when an error occurs and the workflow is in a failed state.
 
 > ![lab_3_workflow_unit_testing_06_emphasis](images/lab_3_workflow_unit_testing_06_emphasis.jpg)
 
