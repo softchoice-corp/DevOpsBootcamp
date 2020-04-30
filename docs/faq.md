@@ -22,7 +22,6 @@ Make sure you're not trying to modify the softchoice-corp repo
 
 In lab 1 you will create a new `MyDevOpsBootcamp` repo in your account by using the softchoice-corp template. You need to make sure that when you push the code you changed during the lab that you are executing the commits in your local repo otherwise you will receive a permission error. Remember, you do not have permission to make changes to the template itself (github.com/softchoice-corp/MyDevOpsBootcamp) only the repos you create in your account.
 
-
 ## How do I fix errors when trying to use or launch Azure Cloud Shell?
 
 - First, reset the cloud shell session using the restart icon on the Cloud Shell toolbar.
@@ -42,4 +41,3 @@ When you create any Service Principal in Azure you will only be shown the genera
 ## How can I increase my vCPU quota?
 
 Follow the Microsoft Docs guidance here: [https://docs.microsoft.com/en-us/azure/azure-portal/supportability/regional-quota-requests](https://docs.microsoft.com/en-us/azure/azure-portal/supportability/regional-quota-requests)
-
