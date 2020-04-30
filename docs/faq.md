@@ -30,3 +30,7 @@ In lab 1 you will create a new `MyDevOpsBootcamp` repo in your account by using 
 ## How do I find my Service Principal Client ID or Client Secret?
 
 When you create any Service Principal in Azure you will only be shown the generated Client Secret (password) one time. It can never be retrieved from Azure again. However, you can update the Service Principal with a new Client Secret. From Azure Cloud Shell run the command `az ad sp create-for-rbac --name GitHubActions` again. This will update your existing Service Principal with a new Client Secret. This command will also output your existing Client ID and Tenant ID. If you run this command you will need to create a new `AZURE_CREDENTIALS` secret in GitHub with the new Client Secret.
+
+## How can I increase my vCPU quota?
+
+Follow the Microsoft Docs guidance here: [https://docs.microsoft.com/en-us/azure/azure-portal/supportability/regional-quota-requests](https://docs.microsoft.com/en-us/azure/azure-portal/supportability/regional-quota-requests)
