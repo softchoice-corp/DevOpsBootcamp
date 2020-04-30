@@ -14,15 +14,11 @@
 
 2. Click the green **Use this template** button. This will copy all of the content from the source repo into a new repo under your GitHub account.
 
-> ![template_01](images/lab_1_template_01.png)
-
 3. Provide a new repository name and description. The repo can be left as `Public`, and leave the `Include all branches` option unselected. Click the green **Create repository from template** button.
-
-> ![lab_1_template_02](images/lab_1_template_02.png)
 
 4. Once the repository creation is completed you should see that your new repo is in your account, and was generated from _softchoice-corp/DevOpsBootcamp_.
 
-> ![lab_1_template_03](images/lab_1_template_03.png)
+> ![lab_1_template_01](images/lab_1_template_01.gif)
 
 ---
 
@@ -32,13 +28,11 @@ We need to create a service principal in Azure that GitHub Actions will use to a
 
 1. Open the Azure Portal using [https://portal.azure.com](https://portal.azure.com).
 
-> ![lab_1_azureportal](images/lab_1_azureportal.png)
-
-2.Access Cloud Shell from the Azure Portal by clicking the icon in the upper right toolbar.
-
-> ![cloudshell_01](images/cloudshell_01.png)
+2. Access Cloud Shell from the Azure Portal by clicking the icon in the upper right toolbar.
 
 > Note: If this is the first time you have used Azure Cloud Shell you will be prompted to create a storage account to enable Cloud Shell.
+
+> ![lab_1_cloudshell_01](images/lab_1_cloudshell_01.gif)
 
 3. Use Azure CLI to create a new service principal for use with GitHub Actions. Az Cli is installed in both PowerShell and Bash within Azure Cloud Shell.
 
@@ -84,23 +78,19 @@ The JSON properties names returned via Cloud Shell do not exactly match what is 
 
 ---
 
-1. Browse to the `workflows-templates\lab_1_connectivity.yml` file and copy all of the text.
+1. It your GitHub repo navigate to **Code**, then browse to the `workflow-templates` directory and open the `lab_1_connectivity.yml` file and copy all of the text.
 
-> ![lab_1_workflow_01](images/lab_1_workflow_01.png)
+> ![lab_1_workflow_01](images/lab_1_workflow_01.gif)
 
 2. Navigate to **Actions** and click **Set up a workflow yourself**. If prompted to start with a sample workflow click the `Set up a workflow yourself` button in the top right.
-
-> ![lab_1_workflow_02](images/lab_1_workflow_02.png)
 
 3. Replace all of the sample workflow code in the editor by pasting all the code you copied from `workflows-templates/lab_1_connectivity.yml`.
 
 4. GitHub Actions files must be saved in a directory in your repo named `.github/workflows/`. The directory structure `.github/workflows/` should already exist in the path, name your workflow file `lab_1_connectivity.yml` and click `Start Commit`.
 
-> ![lab_1_workflow_03](images/lab_1_workflow_03.png)
-
 5. Add a short commit message and click `Commit new file`
 
-![lab_1_workflow_04](images/lab_1_workflow_04.png)
+![lab_1_workflow_02](images/lab_1_workflow_02.gif)
 
 Navigate to **Code**, open the `.github/workflows` directory, and open the `lab_1_connectivity.yml` file. Let's explore this file.
 

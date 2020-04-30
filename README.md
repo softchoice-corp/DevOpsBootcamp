@@ -2,7 +2,9 @@
 
 ## Overview
 
-This guide will walk through configuring GitHub Actions and Azure to deploy and update basic infrastructure.
+The individual labs below will walk through configuring GitHub Actions and Azure to deploy and update basic infrastructure. If you run into issues please review the FAQ.
+
+[**Frequently Asked Questions**](docs/faq.md)
 
 ---
 
