@@ -32,7 +32,7 @@
 		}
 	},
 	"variables": {
-		"webAppPortalName": "[concat(parameters('webAppName'), '-', uniqueString(subscription().subscriptionId))]",
+		"webAppPortalName": "[concat(parameters('webAppName'), '-', uniqueString(resourceGroup().id))]",
 		"appServicePlanName": "[concat('plan-', parameters('webAppName'))]"
 	},
 	"resources": [
