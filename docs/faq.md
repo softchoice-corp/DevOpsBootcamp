@@ -25,7 +25,7 @@ In lab 1 you will create a new `MyDevOpsBootcamp` repo in your account by using 
 ## How do I fix errors when trying to use or launch Azure Cloud Shell?
 
 - First, reset the cloud shell session using the restart icon on the Cloud Shell toolbar.
-- Second, if you recieved an error about your cloud storage account (which is used for persistent storage in cloud shell), try to close cloud shell, locate the storage account in Resource Group "cloud-shell-storage-eastus" (substitute your region name), then delete the existing storage account. The storage account name will start with "cs", and is only supported in limited regions. When you launch Cloud Shell the next time, it will prompt you to create a storage account, allow it to create a new one, or use the advanced settings to point to a supported region or exisitng storage account: 
+- Second, if you recieved an error about your cloud storage account (which is used for persistent storage in cloud shell), try to close cloud shell, locate the storage account in Resource Group "cloud-shell-storage-eastus" (substitute your region name), then delete the existing storage account. The storage account name will start with "cs", and is only supported in limited regions. When you launch Cloud Shell the next time, it will prompt you to create a storage account, allow it to create a new one, or use the advanced settings to point to a supported region or exisitng storage account:
 -- https://docs.microsoft.com/en-us/azure/cloud-shell/persisting-shell-storage#supported-storage-regions
 - Third, if you are trying to use an unsupported Region (like any Canada regions), you may need to use an existing storage account in a supported region.
 
@@ -41,3 +41,7 @@ When you create any Service Principal in Azure you will only be shown the genera
 ## How can I increase my vCPU quota?
 
 Follow the Microsoft Docs guidance here: [https://docs.microsoft.com/en-us/azure/azure-portal/supportability/regional-quota-requests](https://docs.microsoft.com/en-us/azure/azure-portal/supportability/regional-quota-requests)
+
+## Can more than one user share a single subscription?
+
+Yes, however some adjustments will need to be made. When creating Resource Groups for each section of the lab you will need to add a suffix or prefix to the Resource Group name so there are not conflicts. For example, for `rg-lab-2` two users could create Resource Groups named `rg-lab-2-user1` and `rg-lab-2-user2`.
