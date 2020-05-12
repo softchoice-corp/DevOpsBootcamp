@@ -24,7 +24,7 @@
 
 ## Create Azure Service Principal
 
-We need to create a service principal in Azure that GitHub Actions will use to authenticate and deploy resources.
+We need to create a service principal in Azure that GitHub Actions will use to authenticate and deploy resources. This service principal is similar to a traditional service account. The clientId or appId represent the username, the clientSecret represents the password, and the tenantId/subscriptionId represent the domain. When creating a new service principal all of these values are guids.
 
 1. Open the Azure Portal using [https://portal.azure.com](https://portal.azure.com).
 
@@ -44,22 +44,19 @@ Azure will generate a strong password for the service principal and return it in
 
 > ![sp_01](images/sp_01.png)
 
+4. When creating the new service principal the Subscription Id is not a value that is returned, but we will need it for our connection later. Run the following command to display the Subscription Id.
+
+```python
+az account show --query "id"
+```
+
 ## Create GitHub Credential Variable
 
 ---
 
-The JSON properties names returned via Cloud Shell do not exactly match what is required for GitHub Actions. We will need to manually format a JSON object with the required property names.
+We need to provide our GitHub repo the service principal credentials we just created in our Azure subscription. GitHub will need the credentials supplied in a specifically formatted block of JSON. Copy this example into a text editor like Notepad. Then we will substitute our actual values for the service principal before saving it in GitHub.
 
-| GitHub Property Name | Az CLI Property Name |
-| -------------------- | -------------------- |
-| `clientId`           | `appId`              |
-| `clientSecret`       | `password`           |
-| `subscriptionId`     | _not provided_       |
-| `tenantId`           | `tenant`             |
-
-> Note: Az CLI does not return the Azure Subscription Id in the response when creating a new service principal object. You can obtain this value by using this command: `az account show --query "id"`
-
-1. Copy the JSON code block below, replacing _GUID_ with each value from your Azure environment.
+1. Open Notepad and paste the following JSON code block:
 
 ```json
 {
@@ -70,7 +67,16 @@ The JSON properties names returned via Cloud Shell do not exactly match what is 
 }
 ```
 
-2. In your GitHub Repo navigate to **Settings** > **Secrets**, and click **Add a new Secret**. Name the secret `AZURE_CREDENTIALS`, paste your JSON object in the Value, and click Add Secret. ![secret_01](images/secret_01.png)
+2. For each property replace _"GUID"_ with the actual guid for the Azure Service Principal. You may notice that property names that GitHub requires do not exactly match the property names that Azure outputed when we created the service principal. This is expected, use the table below to map the property name required by GitHub to the Azure CLI property name that was outputted when the service principal was created.
+
+| GitHub Property Name | Where do I get it?                           | Az CLI Property Name       |
+| -------------------- | -------------------------------------------- | -------------------------- |
+| `clientId`           | Output from Azure Service Principal creation | `appId`                    |
+| `clientSecret`       | Output from Azure Service Principal creation | `password`                 |
+| `subscriptionId`     | Output from `az account show --query "id"`   | guid is only data returned |
+| `tenantId`           | Output from Azure Service Principal creation | `tenant`                   |
+
+3. In your GitHub Repo navigate to **Settings** > **Secrets**, and click **Add a new Secret**. Name the secret `AZURE_CREDENTIALS`, paste your JSON object in the Value, and click Add Secret. ![secret_01](images/secret_01.png)
 
 > Note: Once you add the secret you cannot retrieve the values in clear text from GitHub.
 
