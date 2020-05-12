@@ -2,9 +2,9 @@
 
 - [Configure GitHub Actions](#Configure-GitHub-Actions)
 - [Run GitHub Actions](#Run-GitHub-Actions)
-- [Scale Up Resources](#Scale-Up-Resources)
 - [Scale Out Resources](#Scale-Out-Resources)
 - [Clean Up Resources](#Clean-Up-Resources)
+- [Optional Scale Up Resources](#Optional-Scale-Up-Resources)
 
 ---
 

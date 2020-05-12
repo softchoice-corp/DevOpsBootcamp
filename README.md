@@ -39,7 +39,6 @@ The second lab will deploy IaaS components consisting of Virtual Networking, Vir
 
 - Configure GitHub Actions
 - Run GitHub Actions
-- Scale Up Resources
 - Scale Out Resources
 - Clean Up Resources
 
