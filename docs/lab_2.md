@@ -95,47 +95,9 @@ The ARM template file defines several Azure resources to deploy:
 
 ---
 
-## Scale Up Resources
-
-We need to increase the CPU and Memory
-
-| VM SKU | CPU Cores | Memory | Data Disks |
-| --- | --- | --- | --- |
-| Standard_B1s | 1 | 1 GB | 2 |
-| Standard_B2s | 2 | 4 GB | 4 |
-
-1. Navigate to **Code** and browse to the `lab_2/iaas.deploy.json` file.
-
-2. Click the pencil icon to edit the file. Change the `webVmSize` parameter by modifying the VM SKU size for `defaultValue` to be `Standard_B2s`
-
-```json
-"webVmSize": {
-	"type": "string",
-	"defaultValue": "Standard_B2s"
-},
-```
-
-> Note: JSON has very strict formatting rules. When modifying the code be sure that you have correct quotation marks, commas, and brackets in the correct locations or your ARM deployment may fail.
-
-3. Enter a commit message and click `Commit changes`
-
-> ![lab_2_workflow_02](images/lab_2_workflow_02.png)
-
-4. Navigate to **Actions** and you should see your workflow executing.
-
-> ![lab_2_ workflow_03](images/lab_2_workflow_03.png)
-
-5. Once the workflow is completed we can open the Azure Portal and confirm the virtual machines have been reconfigured to the new size.
-
-> ![lab_2_workflow_05](images/lab_2_workflow_05.png)
-
----
-
 ## Scale Out Resources
 
 Let's scale out the solution from 2 virtual machines to 4.
-
-> Note: Azure implements a vCPU quota per subscription, the default is 10 vCPUs. This portion of the lab will increase our vCPU usage to 8 (4 vm's x 2 vCPU's). If you have other virtual machines deployed in your subscription counting against this quota you may need to remove other virtual machines, or request a quota increase. [https://docs.microsoft.com/en-us/azure/azure-portal/supportability/resource-manager-core-quotas-request](https://docs.microsoft.com/en-us/azure/azure-portal/supportability/resource-manager-core-quotas-request)
 
 1. Navigate to **Code** and browse to the `lab_2/iaas.deploy.json` file.
 
@@ -143,13 +105,13 @@ Let's scale out the solution from 2 virtual machines to 4.
 
 ```json
 "webServerNames": {
-	"type": "array",
-	"defaultValue": [
-		"vm-wdgt-dev-1",
-		"vm-wdgt-dev-2",
-		"vm-wdgt-dev-3",
-		"vm-wdgt-dev-4"
-	]
+    "type": "array",
+    "defaultValue": [
+        "vm-wdgt-dev-1",
+        "vm-wdgt-dev-2",
+        "vm-wdgt-dev-3",
+        "vm-wdgt-dev-4"
+    ]
 },
 ```
 
@@ -193,3 +155,41 @@ Links to more learning:
 - **Azure Virtual Machine Quotas**: [https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#virtual-machines-limits](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#virtual-machines-limits)
 
 ![constructocat](images/constructocat2.jpg)
+
+## Optional Scale Up Resources
+
+This exercise will go through scaling up the deployed Virtual Machines to a different SKU with more vCPU and Memory resources.
+
+> NOTE: If you are using an Azure Free Account you may need to upgrade to a Pay-As-You-Go account in order to perform these steps. Azure has been limiting the vCPU Core quotes and denying quota increase requests on Free accounts. Completing this optional step is not required, and
+
+| VM SKU       | CPU Cores | Memory | Data Disks |
+| ------------ | --------- | ------ | ---------- |
+| Standard_B1s | 1         | 1 GB   | 2          |
+| Standard_B2s | 2         | 4 GB   | 4          |
+
+1. Navigate to **Code** and browse to the `lab_2/iaas.deploy.json` file.
+
+2. Click the pencil icon to edit the file. Change the `webVmSize` parameter by modifying the VM SKU size for `defaultValue` to be `Standard_B2s`
+
+```json
+"webVmSize": {
+    "type": "string",
+    "defaultValue": "Standard_B2s"
+},
+```
+
+> Note: JSON has very strict formatting rules. When modifying the code be sure that you have correct quotation marks, commas, and brackets in the correct locations or your ARM deployment may fail.
+
+3. Enter a commit message and click `Commit changes`
+
+> ![lab_2_workflow_02](images/lab_2_workflow_02.png)
+
+4. Navigate to **Actions** and you should see your workflow executing.
+
+> ![lab_2_ workflow_03](images/lab_2_workflow_03.png)
+
+5. Once the workflow is completed we can open the Azure Portal and confirm the virtual machines have been reconfigured to the new size.
+
+> ![lab_2_workflow_05](images/lab_2_workflow_05.png)
+
+---
