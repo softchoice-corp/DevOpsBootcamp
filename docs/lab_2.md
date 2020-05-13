@@ -160,7 +160,7 @@ Links to more learning:
 
 This exercise will go through scaling up the deployed Virtual Machines to a different SKU with more vCPU and Memory resources.
 
-> NOTE: If you are using an Azure Free Account you may need to upgrade to a Pay-As-You-Go account in order to perform these steps. Azure has been limiting the vCPU Core quotes and denying quota increase requests on Free accounts. Completing this optional step is not required, and
+> NOTE: If you are using an Azure Free Account you may need to upgrade to a Pay-As-You-Go account in order to perform these steps. Azure has been limiting the vCPU Core quotes and denying quota increase requests on Free accounts. Completing this optional step is not required, and will not prevent you from completing the remaining labs.
 
 | VM SKU       | CPU Cores | Memory | Data Disks |
 | ------------ | --------- | ------ | ---------- |
